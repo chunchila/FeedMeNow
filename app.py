@@ -1,37 +1,63 @@
 import sqlite3
 
-from flask import Flask, request, render_template
+from flask import request, render_template, Flask
+
+
+class Item(object):
+    def __init__(self, dateTime, name, phone, message, orderType):
+        self.dateTime = dateTime
+        self.name = name
+        self.phone = phone
+        self.message = message
+        self.orderType = orderType
+
+
+init = 0
+if (init == 1):
+    conn = sqlite3.connect('orders.db')
+    c = conn.cursor()
+    c.execute('''DROP TABLE orders''')
+    c.execute('''CREATE TABLE orders(name text, phone text, orderMsg text, orderType text ,timeDate text)''')
+    conn.commit()
+    c.close()
+
+orderTypeList = []
+orderTypeList.append("Morning")
+orderTypeList.append("12")
+orderTypeList.append("Evining")
+orderTypeList.append("Extra")
+
+currentOrders = []
 
 conn = sqlite3.connect('orders.db')
 
 c = conn.cursor()
 
-# c.execute('''CREATE TABLE orders(name text, phone text, orderMsg text, orderType text)''')
-
-# conn.commit()
-
-itemlist = [x for x in range(100)]
-
 c.execute('''SELECT * FROM orders''')
-allItems = c.fetchall()
+current = c.fetchall()
 
-for item in allItems:
-    print("this is in database", item)
-else:
-    print("no items in allItems")
+# Load All The DateBase To Vars
+for item in current:
+    print("db Loaded ", item)
+    name = item[0]
+    phone = item[1]
+    message = item[2]
+    orderType = item[3]
+    dateTime = item[4]
+    currentOrders.append(Item(dateTime=dateTime, name=name, phone=phone, message=message, orderType=orderType))
+
+conn.close()
 
 app = Flask(__name__)
 
-app.config['secret_key'] = "dfdf";
-
 
 @app.route('/')
-def hello_world():
-    return render_template("index.html", itemlist=itemlist)
+def index_page():
+    return render_template("index.html", itemlist=itemlist, orderTypeList=orderTypeList, currentOrders=currentOrders)
 
 
 @app.route('/order', methods=['POST', 'GET'])
-def order_func():
+def order_func_page():
     if request.method == "POST":
 
         try:
@@ -41,8 +67,20 @@ def order_func():
                         name = request.form['name']
                         phone = request.form['phone']
                         history = request.form['history']
-                        c.execute('''INSERT INTO orders(name, phone, orderMsg, orderType)
-                                          VALUES(?,?,?,?)''', (name, phone,))
+                        message = request.form['message']
+                        orderType = request.form['orderType']
+
+                        import datetime
+                        timeDate = datetime.datetime.now().strftime("%d%m%y %H%M%S")
+
+                        conn = sqlite3.connect('orders.db')
+                        if history != "None":
+                            message = history
+                        c = conn.cursor()
+                        c.execute('''INSERT INTO orders(name, phone, orderMsg, orderType ,timeDate)
+                                          VALUES(?,?,?,?,?)''', (name, phone, message, orderType, timeDate))
+                        conn.commit()
+                        conn.close()
                         print('First user inserted')
 
         except Exception as e:
