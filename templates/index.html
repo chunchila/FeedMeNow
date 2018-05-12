@@ -66,7 +66,17 @@
         <h2 class="text-center text-uppercase text-secondary mb-0">Current List</h2>
         <hr class="star-dark mb-5">
         <div class="row">
+
             <div class="col-lg-8 mx-auto">
+                <select class="form-control" name="orderType" placeholder="orderType"
+                        data-validation-required-message="orderType.">
+
+
+                    {% for type in orderTypeList %}
+
+                    <option>{{ type }}</option>
+                    {% endfor %}
+                </select>
                 <table class="table">
                     <thead>
                     <tr>
@@ -105,13 +115,16 @@
 </section>
 
 
-<!-- Contact Section -->
+<!-- Order Section -->
 <section id="ordernow">
     <div class="container">
         <h2 class="text-center text-uppercase text-secondary mb-0">Order Your Food</h2>
         <hr class="star-dark mb-5">
+
+
         <div class="row">
             <div class="col-lg-8 mx-auto">
+
                 <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
                 <!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
                 <form name="orderfrm ge" id="orderfrm" name="orderfrm" novalidate="novalidate" action="/order"
@@ -119,7 +132,8 @@
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
                             <label>Name</label>
-                            <input class="form-control" name="name" type="text" placeholder="Name" required="required"
+                            <input class="form-control" name="name" type="text" placeholder="Name"
+                                   required="required"
                                    data-validation-required-message="Please enter your name.">
                             <p class="help-block text-danger"></p>
                         </div>
@@ -146,60 +160,74 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
 
-                    <div class="control-group">
-                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                            History
-                            <label>Get From history</label>
-                            <select class="form-control" name="history" placeholder="History"
-                                    data-validation-required-message="Get From Recent History.">
+                            <div class="control-group">
+                                <div class="form-group floating-label-form-group controls mb-0 pb-2">
 
-                                <option>None</option>
-                                {% for entry in currentOrders %}
+                                    <label>Get From history</label>
+                                    <select class="form-control" name="history" placeholder="History"
+                                            data-validation-required-message="Get From Recent History.">
 
-                                <option>{{ entry.message }}</option>
-                                {% else %}
+                                        <option>None</option>
+                                        {% for entry in currentOrders %}
 
-
-                                {% endfor %}
-
-
-                            </select>
+                                        <option>{{ entry.message }}</option>
+                                        {% else %}
 
 
-                            <p class="help-block text-danger"></p>
+                                        {% endfor %}
+
+
+                                    </select>
+
+
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
 
-                    <div class="control-group">
-                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                            Order Type
-                            <label>Order Type</label>
-                            <select class="form-control" name="orderType" placeholder="OrderType"
-                                    data-validation-required-message="Select Order Type.">
+                            <div class="control-group">
+                                <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                                    Order Type
+                                    <label>Order Type</label>
+                                    <select class="form-control" name="orderType" placeholder="OrderType"
+                                            data-validation-required-message="Select Order Type.">
 
-                                {% for order in orderTypeList %}
+                                        {% for order in orderTypeList %}
 
-                                <option>{{ order }}</option>
-                                {% else %}
+                                        <option>{{ order }}</option>
+                                        {% else %}
 
-                                <option>no OrderType</option>
+                                        <option>no OrderType</option>
 
-                                {% endfor %}
-
-
-                            </select>
+                                        {% endfor %}
 
 
-                            <p class="help-block text-danger"></p>
+                                    </select>
+
+
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <br>
-                    <div id="success"></div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Send</button>
+                    <div class="row">
+                        <div class="col-lg-2 mx-auto">
+                            <div id="success"></div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Send
+                                </button>
+                            </div>
+                        </div>
                     </div>
+
 
                 </form>
             </div>
