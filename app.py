@@ -74,7 +74,7 @@ def index_page():
 
     conn.close()
 
-    return render_template("index.html", itemlist=itemlist, orderTypeList=orderTypeList, currentOrders=currentOrders)
+    return render_template("index.html", orderTypeList=orderTypeList, currentOrders=currentOrders)
 
 
 @app.route('/order', methods=['POST', 'GET'])
@@ -111,5 +111,4 @@ def order_func_page():
 
 
 if __name__ == '__main__':
-    itemlist = [x for x in range(100)]
     app.run(debug=True)
