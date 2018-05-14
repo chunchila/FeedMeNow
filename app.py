@@ -5,8 +5,9 @@ from flask import *
 
 
 class Item(object):
-    def __init__(self, timeDate, name, phone, message, orderType):
-        self.timeDate = timeDate
+    def __init__(self, tTime, dDate, name, phone, message, orderType):
+        self.tTime = tTime
+        self.dDate = dDate
         self.name = name
         self.phone = phone
         self.message = message
@@ -21,7 +22,8 @@ def clear_db():
     conn = sqlite3.connect('orders.db')
     c = conn.cursor()
     c.execute('''DROP TABLE orders''')
-    c.execute('''CREATE TABLE orders(timeDate text , name text, phone text, orderMsg text, orderType text)''')
+    c.execute(
+        '''CREATE TABLE orders(tTime text ,dDate text , name text, phone text, orderMsg text, orderType text)''')
     conn.commit()
     c.close()
     return redirect(url_for('index_page'))
@@ -52,25 +54,25 @@ def index_page():
 
     # Load All The DateBase To Vars
     for item in current:
-        timeDate = item[0]
-        name = item[1]
-        phone = item[2]
-        message = item[3]
-        orderType = item[4]
+        tTimeVal = item[0]
+        dDateVal = item[1]
+        name = item[2]
+        phone = item[3]
+        message = item[4]
+        orderType = item[5]
 
-        todayDate = datetime.datetime.now().strftime("%d-%m-%y %H:%M:%S").split(" ")[0]
-
-        if todayDate not in timeDate:
+        dDate = datetime.datetime.now().strftime("%d-%m-%y")
+        tTime = datetime.datetime.now().strftime("%H:%M:%S")
+        if dDate not in dDateVal:
             continue
 
-        if querydate:
+        if querydate != "All Day" and querydate != "":
             if orderType == querydate:
                 currentOrders.append(
-                    Item(timeDate=timeDate, name=name, phone=phone, message=message, orderType=orderType))
-        elif querydate == "":
-            currentOrders.append(Item(timeDate=timeDate, name=name, phone=phone, message=message, orderType=orderType))
-        elif querydate == "All Day":
-            currentOrders.append(Item(timeDate=timeDate, name=name, phone=phone, message=message, orderType=orderType))
+                    Item(tTime=tTime, dDate=dDate, name=name, phone=phone, message=message, orderType=orderType))
+        else:
+            currentOrders.append(
+                Item(tTime=tTime, dDate=dDate, name=name, phone=phone, message=message, orderType=orderType))
 
     conn.close()
 
@@ -92,14 +94,15 @@ def order_func_page():
                         orderType = request.form['orderType']
 
                         import datetime
-                        timeDate = datetime.datetime.now().strftime("%d-%m-%y %H:%M:%S")
+                        tTime = datetime.datetime.now().strftime("%H:%M:%S")
+                        dDate = datetime.datetime.now().strftime("%d-%m-%y")
 
                         conn = sqlite3.connect('orders.db')
                         if history != "None":
                             message = history
                         c = conn.cursor()
-                        c.execute('''INSERT INTO orders(timeDate ,name, phone, orderMsg, orderType)
-                                          VALUES(?,?,?,?,?)''', (timeDate, name, phone, message, orderType))
+                        c.execute('''INSERT INTO orders(tTime,dDate ,name, phone, orderMsg, orderType)
+                                          VALUES(?,?,?,?,?,?)''', (tTime, dDate, name, phone, message, orderType))
                         conn.commit()
                         conn.close()
 
@@ -111,4 +114,4 @@ def order_func_page():
 
 
 if __name__ == '__main__':
-    app.run(debug=True,port=80)
+    app.run(debug=True, port=80)

@@ -91,6 +91,7 @@
                     <thead>
                     <tr>
 
+                        <th scope="col">Date</th>
                         <th scope="col">Time</th>
                         <th scope="col">Name</th>
                         <th scope="col">Phone</th>
@@ -101,21 +102,22 @@
                     <tbody>
                     {% for item in currentOrders %}
                     <tr>
-                        {% set onlydate = item.timeDate.split(' ') %}
 
-                        <th scope="row"></th>
-                        <td>{{ item.timeDate }}</td>
+
+
+                        <td>{{ item.dDate }}</td>
+                        <td>{{ item.tTime }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.phone }}</td>
                         <td>{{ item.message }}</td>
                         <td>{{ item.orderType }}</td>
 
                         {% else %}
-                        <th scope="row"></th>
-                        <td>none</td>
-                        <td>none</td>
-                        <td>none</td>
-                        <td>none</td>
+
+                        <td>אין הזמנות להיום</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     {% endfor %}
 
@@ -171,7 +173,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-8 mx-auto">
+                        <div class="col-lg mx-auto">
 
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -194,7 +196,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-8 mx-auto">
+                        <div class="col-lg mx-auto">
 
 
                             <div class="input-group mb-3">
