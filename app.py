@@ -5,27 +5,30 @@ from flask import *
 
 
 class Item(object):
-    def __init__(self, tTime, dDate, name, phone, message, orderType):
+    def __init__(self, tTime, dDate, name, phone, message, orderType, id):
         self.tTime = tTime
         self.dDate = dDate
         self.name = name
         self.phone = phone
         self.message = message
         self.orderType = orderType
+        self.id = id
 
 
 app = Flask(__name__)
 
 
-@app.route('/clear_db')
-def clear_db():
-    conn = sqlite3.connect('orders.db')
-    c = conn.cursor()
-    c.execute('''DROP TABLE orders''')
-    c.execute(
-        '''CREATE TABLE orders(tTime text ,dDate text , name text, phone text, orderMsg text, orderType text)''')
-    conn.commit()
-    c.close()
+@app.route('/clear_db/<id>')
+def clear_db(id):
+    if id == "aAll":
+        print("wanna clear id : ", id)
+        conn = sqlite3.connect('orders.db')
+        c = conn.cursor()
+        c.execute('''DROP TABLE orders''')
+        c.execute(
+            '''CREATE TABLE orders(id integer PRIMARY KEY, tTime text ,dDate text , name text, phone text, orderMsg text, orderType text)''')
+        conn.commit()
+        c.close()
     return redirect(url_for('index_page'))
 
 
@@ -54,12 +57,13 @@ def index_page():
 
     # Load All The DateBase To Vars
     for item in current:
-        tTimeVal = item[0]
-        dDateVal = item[1]
-        name = item[2]
-        phone = item[3]
-        message = item[4]
-        orderType = item[5]
+        iId = item[0]
+        tTimeVal = item[1]
+        dDateVal = item[2]
+        name = item[3]
+        phone = item[4]
+        message = item[5]
+        orderType = item[6]
 
         dDate = datetime.datetime.now().strftime("%d-%m-%y")
         tTime = datetime.datetime.now().strftime("%H:%M:%S")
@@ -69,10 +73,11 @@ def index_page():
         if querydate != "All Day" and querydate != "":
             if orderType == querydate:
                 currentOrders.append(
-                    Item(tTime=tTime, dDate=dDate, name=name, phone=phone, message=message, orderType=orderType))
+                    Item(tTime=tTime, dDate=dDate, name=name, phone=phone, message=message, orderType=orderType,
+                         id=iId))
         else:
             currentOrders.append(
-                Item(tTime=tTime, dDate=dDate, name=name, phone=phone, message=message, orderType=orderType))
+                Item(tTime=tTime, dDate=dDate, name=name, phone=phone, message=message, orderType=orderType, id=iId))
 
     conn.close()
 

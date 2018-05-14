@@ -111,6 +111,7 @@
                         <td>{{ item.phone }}</td>
                         <td>{{ item.message }}</td>
                         <td>{{ item.orderType }}</td>
+                        <td><button type="button" class="btn btn-danger" onclick="location.href = '/clear_db/{{ item.id }}' ;">Remove</button></td>
 
                         {% else %}
 
