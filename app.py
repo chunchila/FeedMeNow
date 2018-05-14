@@ -20,6 +20,16 @@ app = Flask(__name__)
 
 @app.route('/clear_db/<id>')
 def clear_db(id):
+    try:
+        conn = sqlite3.connect('orders.db')
+        c = conn.cursor()
+        c.execute('DELETE FROM orders WHERE id=?', (id,))
+        conn.commit()
+    except Exception as e:
+        print("Exception", e)
+    finally:
+        conn.close()
+
     if id == "aAll":
         print("wanna clear id : ", id)
         conn = sqlite3.connect('orders.db')

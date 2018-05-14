@@ -104,14 +104,17 @@
                     <tr>
 
 
-
                         <td>{{ item.dDate }}</td>
                         <td>{{ item.tTime }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.phone }}</td>
                         <td>{{ item.message }}</td>
                         <td>{{ item.orderType }}</td>
-                        <td><button type="button" class="btn btn-danger" onclick="location.href = '/clear_db/{{ item.id }}' ;">Remove</button></td>
+                        <td>
+                            <button type="button" class="btn btn-danger remove show_tip"
+                                    onclick="location.href = '/clear_db/{{ item.id }}';">
+                                <i class="fa fa-trash-o"></i></button>
+                        </td>
 
                         {% else %}
 
