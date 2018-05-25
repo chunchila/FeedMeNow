@@ -17,4 +17,4 @@ if __name__ == "__main__":
     while True:
         con, client = sock.accept()
 
-        print("got con from ", )
+        print("got con from ", con)
