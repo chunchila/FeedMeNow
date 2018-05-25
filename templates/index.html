@@ -26,6 +26,9 @@
 
 
 
+
+
+
 </script>
 
 
@@ -120,11 +123,10 @@
                     <tr>
 
 
-                        <th scope="col">Time</th>
                         <th scope="col">Name</th>
                         <th scope="col">Phone</th>
                         <th scope="col">Food Name</th>
-                        <th scope="col">Order Time</th>
+                        <th scope="col">Order Type</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -132,7 +134,6 @@
                     <tr>
 
 
-                        <td>{{ item.tTime }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.phone }}</td>
                         <td>{{ item.message }}</td>
@@ -230,28 +231,22 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-lg mx-auto">
+                        <div class="col-lg-8 mx-auto ">
 
 
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="orderType">זמן הארוחה</label>
-                                </div>
-                                <select class="custom-select" name="orderType" id="orderType" required>
-                                    <option selected></option>
-                                    {% for order in orderTypeList %}
-
-                                    <option>{{ order }}</option>
-                                    {% else %}
-
-                                    <option>no OrderType</option>
-
-                                    {% endfor %}
-                                </select>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                {% for order in orderTypeList %}
+                                <label class="btn btn-primary ">
+                                    <input type="radio" name={{ order }} id={{ order }}  required > {{
+                                    order }} </label>
+                                {% endfor %}
                             </div>
+
+
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+
 
                         </div>
                     </div>

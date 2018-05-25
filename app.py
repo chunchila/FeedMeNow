@@ -83,11 +83,12 @@ def index_page():
         if querydate != "All Day" and querydate != "":
             if orderType == querydate:
                 currentOrders.append(
-                    Item(tTime=tTime, dDate=dDate, name=name, phone=phone, message=message, orderType=orderType,
+                    Item(tTime=tTimeVal, dDate=dDateVal, name=name, phone=phone, message=message, orderType=orderType,
                          id=iId))
         else:
             currentOrders.append(
-                Item(tTime=tTime, dDate=dDate, name=name, phone=phone, message=message, orderType=orderType, id=iId))
+                Item(tTime=tTimeVal, dDate=dDateVal, name=name, phone=phone, message=message, orderType=orderType,
+                     id=iId))
 
     conn.close()
 
@@ -129,4 +130,4 @@ def order_func_page():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=80)
+    app.run(debug=True, port=5000, host="0.0.0.0")
